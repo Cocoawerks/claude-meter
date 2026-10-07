@@ -57,6 +57,9 @@ const UsageRow = GObject.registerClass(
 class UsageRow extends PopupMenu.PopupBaseMenuItem {
     _init(title) {
         super._init({ reactive: false, can_focus: false });
+        // Non-clickable items are drawn greyed out by default; these rows are
+        // informational, so render them with normal menu text instead.
+        this.remove_style_class_name('popup-inactive-menu-item');
 
         const box = new St.BoxLayout({ vertical: true, style_class: 'claude-meter-row', x_expand: true });
         this.add_child(box);
@@ -72,7 +75,8 @@ class UsageRow extends PopupMenu.PopupBaseMenuItem {
         this._trough.add_child(this._fill);
         box.add_child(this._trough);
 
-        this._sub = new St.Label({ text: '', style_class: 'claude-meter-sub' });
+        // Secondary text: theme colour at reduced opacity, so it reads on light and dark menus.
+        this._sub = new St.Label({ text: '', style_class: 'claude-meter-sub', opacity: 230 });
         box.add_child(this._sub);
     }
 

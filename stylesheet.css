@@ -21,21 +21,21 @@
 .claude-meter-trough {
   height: 8px;
   border-radius: 4px;
-  background-color: rgba(128, 128, 128, 0.25);
+  background-color: rgba(128, 128, 128, 0.35);
 }
 
+/* Deeper shades than the top-bar bars so they hold up on Pop's light menu. */
 .claude-meter-fill {
   height: 8px;
   border-radius: 4px;
-  background-color: #48b9c7;
+  background-color: #2b9aa8;
 }
 
-.claude-meter-fill.warning { background-color: #faa41a; }
-.claude-meter-fill.critical { background-color: #f15d22; }
+.claude-meter-fill.warning { background-color: #e08c00; }
+.claude-meter-fill.critical { background-color: #e04e14; }
 
 .claude-meter-sub {
   font-size: 0.85em;
-  color: rgba(200, 200, 200, 0.85);
 }
 
 .claude-meter-status {
