@@ -29,7 +29,7 @@ Bars are Pop teal, turn amber at 75% and red at 90% (configurable).
 ## Install
 
 ```sh
-git clone https://github.com/<your-user>/claude-meter.git
+git clone https://github.com/Cocoawerks/claude-meter.git
 cd claude-meter
 make enable
 ```
