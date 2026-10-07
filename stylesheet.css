@@ -1,0 +1,64 @@
+.claude-meter-panel-label {
+  padding-left: 4px;
+  font-feature-settings: "tnum";
+}
+
+.claude-meter-row {
+  min-width: 280px;
+  spacing: 6px;
+  padding: 4px 0;
+}
+
+.claude-meter-title {
+  font-weight: bold;
+}
+
+.claude-meter-percent {
+  font-weight: bold;
+  font-feature-settings: "tnum";
+}
+
+.claude-meter-trough {
+  height: 8px;
+  border-radius: 4px;
+  background-color: rgba(128, 128, 128, 0.25);
+}
+
+.claude-meter-fill {
+  height: 8px;
+  border-radius: 4px;
+  background-color: #48b9c7;
+}
+
+.claude-meter-fill.warning { background-color: #faa41a; }
+.claude-meter-fill.critical { background-color: #f15d22; }
+
+.claude-meter-sub {
+  font-size: 0.85em;
+  color: rgba(200, 200, 200, 0.85);
+}
+
+.claude-meter-status {
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+.claude-meter-panel-bars {
+  spacing: 3px;
+  padding-left: 5px;
+}
+
+.claude-meter-panel-trough {
+  height: 5px;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+.claude-meter-panel-fill {
+  height: 5px;
+  border-radius: 3px;
+  background-color: #48b9c7;
+}
+
+.claude-meter-panel-fill.warning { background-color: #faa41a; }
+.claude-meter-panel-fill.critical { background-color: #f15d22; }

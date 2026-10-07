@@ -1,0 +1,9 @@
+{
+  "uuid": "claude-meter@cbruno.linux",
+  "name": "Claude Code Meter",
+  "description": "Shows Claude Code session (5-hour) and weekly usage in the top bar.",
+  "shell-version": ["42"],
+  "settings-schema": "org.gnome.shell.extensions.claude-meter",
+  "url": "",
+  "version": 1
+}

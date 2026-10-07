@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.claude-meter.PanelMode">
+    <value nick="both" value="0"/>
+    <value nick="session" value="1"/>
+    <value nick="weekly" value="2"/>
+    <value nick="icon" value="3"/>
+  </enum>
+  <schema id="org.gnome.shell.extensions.claude-meter" path="/org/gnome/shell/extensions/claude-meter/">
+    <key name="refresh-interval" type="i">
+      <range min="60" max="3600"/>
+      <default>300</default>
+      <summary>Refresh interval in seconds</summary>
+    </key>
+    <key name="panel-mode" enum="org.gnome.shell.extensions.claude-meter.PanelMode">
+      <default>'both'</default>
+      <summary>What the top bar label shows</summary>
+    </key>
+    <key name="warn-threshold" type="i">
+      <range min="1" max="100"/>
+      <default>75</default>
+      <summary>Percent at which a meter turns amber</summary>
+    </key>
+    <key name="critical-threshold" type="i">
+      <range min="1" max="100"/>
+      <default>90</default>
+      <summary>Percent at which a meter turns red</summary>
+    </key>
+  </schema>
+</schemalist>

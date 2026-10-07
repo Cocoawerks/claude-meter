@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""Claude Code Meter settings — GTK 3 so it picks up the Pop GTK theme."""
+import os
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gio, Gtk  # noqa: E402
+
+HERE = os.path.dirname(os.path.realpath(__file__))
+SCHEMA_ID = "org.gnome.shell.extensions.claude-meter"
+
+MODES = [("both", "Session and week bars"), ("session", "Session bar only"),
+         ("weekly", "Week bar only"), ("icon", "Icon only")]
+
+
+def load_settings():
+    source = Gio.SettingsSchemaSource.new_from_directory(
+        os.path.join(HERE, "schemas"), Gio.SettingsSchemaSource.get_default(), False)
+    return Gio.Settings.new_full(source.lookup(SCHEMA_ID, False), None, None)
+
+
+def row(title, subtitle, control):
+    box = Gtk.Box(spacing=12, margin=12)
+    text = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2, valign=Gtk.Align.CENTER)
+    text.pack_start(Gtk.Label(label=title, xalign=0), False, False, 0)
+    sub = Gtk.Label(label=subtitle, xalign=0)
+    sub.get_style_context().add_class("dim-label")
+    text.pack_start(sub, False, False, 0)
+    box.pack_start(text, True, True, 0)
+    control.set_valign(Gtk.Align.CENTER)
+    box.pack_end(control, False, False, 0)
+    r = Gtk.ListBoxRow(activatable=False, selectable=False)
+    r.add(box)
+    return r
+
+
+def group(page, heading, rows):
+    label = Gtk.Label(xalign=0)
+    label.set_markup(f"<b>{heading}</b>")
+    page.pack_start(label, False, False, 0)
+    lb = Gtk.ListBox(selection_mode=Gtk.SelectionMode.NONE)
+    lb.get_style_context().add_class("frame")
+    for r in rows:
+        lb.add(r)
+    page.pack_start(lb, False, False, 0)
+
+
+def spin(settings, key, lo, hi, step):
+    s = Gtk.SpinButton.new_with_range(lo, hi, step)
+    settings.bind(key, s, "value", Gio.SettingsBindFlags.DEFAULT)
+    return s
+
+
+class SettingsWindow(Gtk.ApplicationWindow):
+    def __init__(self, app):
+        super().__init__(application=app, default_width=480, resizable=False)
+        settings = load_settings()
+
+        header = Gtk.HeaderBar(title="Claude Code Meter", show_close_button=True)
+        self.set_titlebar(header)
+
+        page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12, margin=24)
+
+        combo = Gtk.ComboBoxText()
+        for mode_id, label in MODES:
+            combo.append(mode_id, label)
+        settings.bind("panel-mode", combo, "active-id", Gio.SettingsBindFlags.DEFAULT)
+        group(page, "Top bar", [row("Show in top bar", "Mini bars next to the icon (top: session, bottom: week)", combo)])
+
+        group(page, "Updates", [row("Refresh interval", "Seconds between usage checks (60–3600)",
+                                    spin(settings, "refresh-interval", 60, 3600, 30))])
+
+        group(page, "Colors", [
+            row("Warning at", "Meter turns amber at this percent", spin(settings, "warn-threshold", 1, 100, 5)),
+            row("Critical at", "Meter turns red at this percent", spin(settings, "critical-threshold", 1, 100, 5)),
+        ])
+
+        note = Gtk.Label(xalign=0, wrap=True, max_width_chars=50,
+                         label="Usage is read with your Claude Code login (~/.claude/.credentials.json). "
+                               "Nothing is stored or sent anywhere except Anthropic.")
+        note.get_style_context().add_class("dim-label")
+        page.pack_start(note, False, False, 6)
+
+        self.add(page)
+        self.show_all()
+
+
+class App(Gtk.Application):
+    def __init__(self):
+        super().__init__(application_id="linux.cbruno.ClaudeMeterSettings")
+
+    def do_activate(self):
+        win = self.get_active_window() or SettingsWindow(self)
+        win.present()
+
+
+if __name__ == "__main__":
+    App().run(None)
