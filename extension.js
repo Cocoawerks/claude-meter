@@ -75,8 +75,8 @@ class UsageRow extends PopupMenu.PopupBaseMenuItem {
         this._trough.add_child(this._fill);
         box.add_child(this._trough);
 
-        // Secondary text: theme colour at reduced opacity, so it reads on light and dark menus.
-        this._sub = new St.Label({ text: '', style_class: 'claude-meter-sub', opacity: 230 });
+        // Secondary text: full theme colour so it stays readable on light and dark menus.
+        this._sub = new St.Label({ text: '', style_class: 'claude-meter-sub' });
         box.add_child(this._sub);
     }
 
